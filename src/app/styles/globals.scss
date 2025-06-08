@@ -1,0 +1,17 @@
+:root {
+  --color-primary: #f76d14;
+  --color-2: #b5866e;
+  --color-3: #fff6ee;
+  --color-4: #dfe0df;
+  --font: "Outfit", sans-serif;
+  --border-radius: 999px;
+}
+
+body {
+  font-family: var(--font);
+  margin: 0;
+  background: white;
+  color: #111;
+  line-height: 1.6;
+  scroll-behavior: smooth;
+}

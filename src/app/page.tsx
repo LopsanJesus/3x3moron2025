@@ -1,95 +1,73 @@
+"use client";
+
 import Image from "next/image";
-import styles from "./page.module.css";
 
-export default function Home() {
+import "./page.scss";
+
+export default function HomePage() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <main>
+      <section className="hero">
+        <div className="hero-content">
+          <div className="title-section">
+            <span className="title">3x3 MORÓN</span>
+            <span className="subtitle">2025</span>
+          </div>
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
+          <span className="subtitle">
+            La 5ᵃ edición del torneo más refrecante del verano
+          </span>
+
+          <a href="/signup" className="cta">
+            Inscribir mi equipo
           </a>
         </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+
+        <div className="scroll-indicator">
+          <span className="arrow" />
+        </div>
+      </section>
+
+      <section className="info">
+        <Image
+          src="/logo.jpeg"
+          alt="Logo del torneo"
+          width={140}
+          height={140}
+          className="logo"
+        />
+        <h2>¡El torneo del verano vuelve con más fuerza!</h2>
+        <p className="description">
+          Vive la emoción del baloncesto 3x3 en Morón. Una experiencia única
+          para jugadores y aficionados de todas las edades.
+        </p>
+
+        <div className="cards">
+          <div className="card">
+            <h3>📍 Ubicación</h3>
+            <p>Pabellón Alameda, Morón de la Frontera</p>
+          </div>
+          <div className="card">
+            <h3>📅 Fecha</h3>
+            <p>28 de Junio, 2025</p>
+          </div>
+          <div className="card">
+            <h3>🏆 Categorías</h3>
+            <p>Senior, Femenino, Mini, Peques</p>
+          </div>
+        </div>
+
+        <div className="banner-final">
           <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+            src="/cartel.jpeg"
+            alt="Cartel promocional 3x3 Morón 2025"
+            width={600}
+            height={850}
+            className="banner-image"
+            style={{ width: "100%", height: "auto" }}
           />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        </div>
+      </section>
+    </main>
   );
 }
