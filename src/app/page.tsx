@@ -52,8 +52,12 @@ export default function HomePage() {
             <p>28 de Junio, 2025</p>
           </div>
           <div className="card">
-            <h3>🏆 Categorías</h3>
-            <p>Senior, Femenino, Mini, Peques</p>
+            <h3>🏆 Mini</h3>
+            <p>De 2009 a 2012</p>
+          </div>
+          <div className="card">
+            <h3>🏆 Peques</h3>
+            <p>Desde 2013</p>
           </div>
         </div>
 
