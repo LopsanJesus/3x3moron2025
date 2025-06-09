@@ -185,3 +185,41 @@ section {
     transform: translateY(10px) rotate(45deg);
   }
 }
+
+.instagram-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  font-size: 1.1rem;
+  color: #e1306c;
+  text-decoration: none;
+
+  img {
+    display: inline-block;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.modern-link {
+  color: #0070f3;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.cards.extras {
+  margin-top: 3rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+
+  .card {
+    flex: 1 1 260px;
+    text-align: center;
+  }
+}
