@@ -71,9 +71,9 @@ export default function Signup() {
       newErrors.teamName =
         "El nombre solo puede contener letras, números, guiones (-), signos más (+) y espacios";
     } else if (teamName.length < 3) {
-      newErrors.teamName = "El nombre debe tener al menos 3 caracteres";
+      newErrors.teamName = "El nombre es demasiado corto";
     } else if (teamName.length > 30) {
-      newErrors.teamName = "El nombre debe tener menos de 30 caracteres";
+      newErrors.teamName = "El nombre es demasiado largo";
     }
 
     if (!selectedCategory) newErrors.category = "Selecciona una categoría";
