@@ -3,6 +3,12 @@
 import { useState } from "react";
 import "./page.scss";
 
+interface Player {
+  nombre: string;
+  apellido: string;
+  nacimiento: string; // usamos string para evitar problemas con inputs numéricos
+}
+
 const categories = ["Senior", "Femenino", "Mini", "Peques"] as const;
 
 export default function Signup() {
@@ -36,14 +42,12 @@ export default function Signup() {
 
   const handlePlayerChange = (
     index: number,
-    field: "nombre" | "apellido" | "nacimiento",
+    field: keyof Player,
     value: string
   ) => {
-    setPlayers((prev) => {
-      const updated = [...prev];
-      updated[index][field] = value;
-      return updated;
-    });
+    const updatedPlayers = [...players];
+    updatedPlayers[index] = { ...updatedPlayers[index], [field]: value };
+    setPlayers(updatedPlayers);
   };
 
   const validateTeamName = (name: string) => {
@@ -60,6 +64,7 @@ export default function Signup() {
 
     const newErrors: typeof errors = {};
 
+    // Validación nombre equipo (sin cambios)
     if (!teamName.trim()) {
       newErrors.teamName = "El nombre del equipo es obligatorio";
     } else if (!validateTeamName(teamName)) {
@@ -73,6 +78,13 @@ export default function Signup() {
 
     if (!selectedCategory) newErrors.category = "Selecciona una categoría";
 
+    // Determinar si el jugador 4 está "activo"
+    const isJugador4Activo =
+      players[3].nombre.trim() !== "" ||
+      players[3].apellido.trim() !== "" ||
+      players[3].nacimiento.trim() !== "";
+
+    // Validar los jugadores obligatorios: Jugadores 1,2,3 siempre
     for (let i = 0; i < 3; i++) {
       const { nombre, apellido, nacimiento } = players[i];
       if (!nombre.trim() || !apellido.trim() || !nacimiento.trim()) {
@@ -82,13 +94,22 @@ export default function Signup() {
       }
     }
 
+    // Si jugador 4 está activo, validar sus campos también
+    if (isJugador4Activo) {
+      const { nombre, apellido, nacimiento } = players[3];
+      if (!nombre.trim() || !apellido.trim() || !nacimiento.trim()) {
+        newErrors[`jugador4`] = `Completa los datos del Jugador 4`;
+      }
+    }
+
     const currentYear = new Date().getFullYear();
+
+    // Validaciones específicas para año de nacimiento para jugadores obligatorios
     for (let i = 0; i < 3; i++) {
       const { nombre, apellido, nacimiento } = players[i];
       if (!nombre.trim() || !apellido.trim() || !nacimiento.trim()) {
-        newErrors[`jugador${i + 1}`] = `Completa los datos del Jugador ${
-          i + 1
-        }`;
+        // Ya capturado arriba
+        continue;
       } else if (
         !/^\d{4}$/.test(nacimiento) ||
         +nacimiento < 1950 ||
@@ -97,6 +118,60 @@ export default function Signup() {
         newErrors[
           `jugador${i + 1}`
         ] = `Año de nacimiento no válido para Jugador ${i + 1}`;
+      }
+    }
+
+    // Validar jugador 4 si activo, para año nacimiento
+    if (isJugador4Activo) {
+      const nacimientoStr = players[3].nacimiento.trim();
+      if (
+        !/^\d{4}$/.test(nacimientoStr) ||
+        +nacimientoStr < 1950 ||
+        +nacimientoStr > currentYear
+      ) {
+        newErrors[`jugador4`] = `Año de nacimiento no válido para Jugador 4`;
+      }
+    }
+
+    // Validaciones para categoría Peques y Mini
+
+    if (selectedCategory === "Peques") {
+      // Validar para jugadores 1,2,3 + 4 si activo
+      const limite = isJugador4Activo ? 4 : 3;
+      for (let i = 0; i < limite; i++) {
+        const nacimientoStr = players[i].nacimiento.trim();
+        const nacimientoNum = /^\d{4}$/.test(nacimientoStr)
+          ? parseInt(nacimientoStr, 10)
+          : null;
+
+        if (nacimientoNum === null) {
+          newErrors[
+            `jugador${i + 1}`
+          ] = `Año de nacimiento no válido para Jugador ${i + 1}`;
+        } else if (nacimientoNum < 2013) {
+          newErrors[`jugador${i + 1}`] = `Jugador ${
+            i + 1
+          } debe haber nacido en 2013 o después para la categoría Peques.`;
+        }
+      }
+    } else if (selectedCategory === "Mini") {
+      // Validar para jugadores 1,2,3 + 4 si activo
+      const limite = isJugador4Activo ? 4 : 3;
+      for (let i = 0; i < limite; i++) {
+        const nacimientoStr = players[i].nacimiento.trim();
+        const nacimientoNum = /^\d{4}$/.test(nacimientoStr)
+          ? parseInt(nacimientoStr, 10)
+          : null;
+
+        if (nacimientoNum === null) {
+          newErrors[
+            `jugador${i + 1}`
+          ] = `Año de nacimiento no válido para Jugador ${i + 1}`;
+        } else if (nacimientoNum < 2009 || nacimientoNum > 2012) {
+          newErrors[`jugador${i + 1}`] = `Jugador ${
+            i + 1
+          } debe haber nacido entre 2009 y 2012 para la categoría Mini.`;
+        }
       }
     }
 
@@ -112,10 +187,20 @@ export default function Signup() {
 
     setSubmitError("");
 
+    // En el envío incluimos solo los jugadores activos (los primeros 3 siempre, y el 4 solo si activo)
     const jugadoresTexto = players
-      .filter(
-        (p) => p.nombre.trim() && p.apellido.trim() && p.nacimiento.trim()
-      )
+      .filter((p, idx) => {
+        if (idx < 3) return true; // primeros 3 siempre
+        // jugador 4 solo si está activo
+        if (idx === 3) {
+          return (
+            p.nombre.trim() !== "" ||
+            p.apellido.trim() !== "" ||
+            p.nacimiento.trim() !== ""
+          );
+        }
+        return false;
+      })
       .map((p) => `${p.nombre} ${p.apellido} ${p.nacimiento}`)
       .join("\n");
 
@@ -147,6 +232,7 @@ export default function Signup() {
     } catch (error) {
       console.error("Error al enviar el formulario:", error);
       setSubmitError("Error de conexión. Intenta nuevamente.");
+      setSendingForm(false);
     }
   };
 
@@ -248,8 +334,8 @@ export default function Signup() {
               <h3 style={{ fontSize: "1.2rem", margin: 0 }}>Opción 1: Bizum</h3>
             </div>
             <p style={{ margin: 0 }}>
-              Realiza un Bizum al número de teléfono de cualquiera de los dos
-              organizadores.
+              Realiza un Bizum a uno de los números de teléfono indicados
+              arriba.
             </p>
           </div>
 
@@ -354,48 +440,57 @@ export default function Signup() {
 
           <label className="players-label">
             <div className="players-container">
-              {players.map((player, index) => (
-                <div key={index} className="player-group">
-                  <h4>
-                    {index === 0
-                      ? "Capitán del equipo"
-                      : `Jugador ${index + 1}${
-                          index === 3 ? " (opcional)" : ""
-                        }`}
-                  </h4>
-                  <div className="input-group">
-                    <input
-                      type="text"
-                      placeholder="Nombre"
-                      value={player.nombre}
-                      onChange={(e) =>
-                        handlePlayerChange(index, "nombre", e.target.value)
-                      }
-                    />
-                    <input
-                      type="text"
-                      placeholder="Primer apellido"
-                      value={player.apellido}
-                      onChange={(e) =>
-                        handlePlayerChange(index, "apellido", e.target.value)
-                      }
-                    />
-                    <input
-                      type="number"
-                      placeholder="Año de nacimiento"
-                      value={player.nacimiento}
-                      onChange={(e) =>
-                        handlePlayerChange(index, "nacimiento", e.target.value)
-                      }
-                      className="year-input"
-                    />
-                  </div>
+              {players.map((player, index) => {
+                console.log(player);
 
-                  {errors[`jugador${index + 1}`] && (
-                    <p className="error">{errors[`jugador${index + 1}`]}</p>
-                  )}
-                </div>
-              ))}
+                return (
+                  <div key={index} className="player-group">
+                    <h4>
+                      {index === 0
+                        ? "Capitán del equipo"
+                        : `Jugador ${index + 1}${
+                            index === 3 ? " (opcional)" : ""
+                          }`}
+                    </h4>
+                    <div className="input-group">
+                      <input
+                        type="text"
+                        placeholder="Nombre"
+                        value={player.nombre}
+                        onChange={(e) =>
+                          handlePlayerChange(index, "nombre", e.target.value)
+                        }
+                      />
+                      <input
+                        type="text"
+                        placeholder="Primer apellido"
+                        value={player.apellido}
+                        onChange={(e) =>
+                          handlePlayerChange(index, "apellido", e.target.value)
+                        }
+                      />
+                      <input
+                        type="text" // <-- usa texto, no "number"
+                        inputMode="numeric"
+                        placeholder="Año de nacimiento"
+                        pattern="\d*"
+                        value={player.nacimiento}
+                        onChange={(e) =>
+                          handlePlayerChange(
+                            index,
+                            "nacimiento",
+                            e.target.value
+                          )
+                        }
+                      />
+                    </div>
+
+                    {errors[`jugador${index + 1}`] && (
+                      <p className="error">{errors[`jugador${index + 1}`]}</p>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </label>
 
