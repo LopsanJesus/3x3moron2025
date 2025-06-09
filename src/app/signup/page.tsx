@@ -14,6 +14,13 @@ export default function Signup() {
   const [teamName, setTeamName] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
 
+  const [players, setPlayers] = useState([
+    { nombre: "", apellido: "", nacimiento: "" },
+    { nombre: "", apellido: "", nacimiento: "" },
+    { nombre: "", apellido: "", nacimiento: "" },
+    { nombre: "", apellido: "", nacimiento: "" }, // Opcional
+  ]);
+
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -23,8 +30,19 @@ export default function Signup() {
     setErrors((prev) => ({ ...prev, category: "" }));
   };
 
+  const handlePlayerChange = (
+    index: number,
+    field: "nombre" | "apellido" | "nacimiento",
+    value: string
+  ) => {
+    setPlayers((prev) => {
+      const updated = [...prev];
+      updated[index][field] = value;
+      return updated;
+    });
+  };
+
   const validateTeamName = (name: string) => {
-    // Solo letras, números, guiones y +, sin espacios al inicio o final
     const regex = /^[a-zA-Z0-9\-+ ]*$/;
     return regex.test(name);
   };
@@ -42,6 +60,33 @@ export default function Signup() {
 
     if (!selectedCategory) newErrors.category = "Selecciona una categoría";
 
+    for (let i = 0; i < 3; i++) {
+      const { nombre, apellido, nacimiento } = players[i];
+      if (!nombre.trim() || !apellido.trim() || !nacimiento.trim()) {
+        newErrors[`jugador${i + 1}`] = `Completa los datos del Jugador ${
+          i + 1
+        }`;
+      }
+    }
+
+    const currentYear = new Date().getFullYear();
+    for (let i = 0; i < 3; i++) {
+      const { nombre, apellido, nacimiento } = players[i];
+      if (!nombre.trim() || !apellido.trim() || !nacimiento.trim()) {
+        newErrors[`jugador${i + 1}`] = `Completa los datos del Jugador ${
+          i + 1
+        }`;
+      } else if (
+        !/^\d{4}$/.test(nacimiento) ||
+        +nacimiento < 1950 ||
+        +nacimiento > currentYear
+      ) {
+        newErrors[
+          `jugador${i + 1}`
+        ] = `Año de nacimiento no válido para Jugador ${i + 1}`;
+      }
+    }
+
     if (!whatsapp.trim()) newErrors.whatsapp = "El Whatsapp es obligatorio";
     else if (!/^\d{9}$/.test(whatsapp.replace(/\D/g, "")))
       newErrors.whatsapp = "Número de Whatsapp no válido";
@@ -49,8 +94,14 @@ export default function Signup() {
     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) return;
 
-    // Reset error antes de submit
     setSubmitError("");
+
+    const jugadoresTexto = players
+      .filter(
+        (p) => p.nombre.trim() && p.apellido.trim() && p.nacimiento.trim()
+      )
+      .map((p) => `${p.nombre} ${p.apellido} ${p.nacimiento}`)
+      .join("\n");
 
     try {
       const res = await fetch("/api/equipos", {
@@ -61,6 +112,7 @@ export default function Signup() {
           categoria: selectedCategory,
           whatsapp,
           local: isLocal,
+          jugadores: jugadoresTexto,
         }),
       });
 
@@ -90,19 +142,139 @@ export default function Signup() {
           minHeight: "60vh",
           padding: "2rem",
           textAlign: "center",
-          gap: "1.5rem",
+          gap: "2rem",
         }}
       >
-        <h2 className="titulo" style={{ fontSize: "2.5rem" }}>
-          ¡Gracias por inscribir a tu equipo!
+        <h2 className="titulo" style={{ fontSize: "2rem" }}>
+          ¡Has completado el primer paso!
         </h2>
-        <p
-          className="info-text"
-          style={{ fontSize: "1.2rem", maxWidth: "400px" }}
+
+        {/* ADVERTENCIA DE INSCRIPCIÓN INCOMPLETA */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "1rem",
+            backgroundColor: "#fff3cd",
+            border: "1px solid #ffeeba",
+            borderRadius: "0.75rem",
+            padding: "1rem 1.5rem",
+            maxWidth: "600px",
+            width: "100%",
+            color: "#856404",
+          }}
         >
-          La organización se pondrá en contacto contigo para completar el
-          proceso de pago y asegurar la plaza.
-        </p>
+          <p style={{ margin: 0, fontWeight: 600 }}>
+            Tu inscripción aún <u>no está completada</u>. Necesitas realizar el
+            pago y enviar el justificante por Whatsapp a uno de los
+            organizadores.
+          </p>
+        </div>
+
+        {/* INSTRUCCIONES */}
+        <div style={{ fontSize: "1.1rem", maxWidth: "600px" }}>
+          <ul style={{ listStyle: "none", padding: 0, margin: "1rem 0" }}>
+            <li>
+              <strong>Dani:</strong> 609 46 80 17
+            </li>
+            <li>
+              <strong>Aitor:</strong> 619 33 44 18
+            </li>
+          </ul>
+        </div>
+
+        {/* OPCIONES DE PAGO */}
+        <div
+          className="payment-options"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "2rem",
+            maxWidth: "600px",
+            width: "100%",
+          }}
+        >
+          {/* Bizum Option */}
+          <div
+            className="payment-card"
+            style={{
+              border: "1px solid #ddd",
+              borderRadius: "1rem",
+              padding: "1.5rem",
+              backgroundColor: "#f9f9f9",
+              textAlign: "left",
+              display: "flex",
+              flexDirection: "column",
+              gap: "1rem",
+            }}
+          >
+            <div
+              style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="none"
+                stroke="var(--color-primary)"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="feather feather-smartphone"
+              >
+                <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                <line x1="12" y1="18" x2="12.01" y2="18" />
+              </svg>
+              <h3 style={{ fontSize: "1.2rem", margin: 0 }}>Opción 1: Bizum</h3>
+            </div>
+            <p style={{ margin: 0 }}>
+              Realiza un Bizum al número de teléfono de cualquiera de los dos
+              organizadores.
+            </p>
+          </div>
+
+          {/* Transfer Option */}
+          <div
+            className="payment-card"
+            style={{
+              border: "1px solid #ddd",
+              borderRadius: "1rem",
+              padding: "1.5rem",
+              backgroundColor: "#f9f9f9",
+              textAlign: "left",
+              display: "flex",
+              flexDirection: "column",
+              gap: "1rem",
+            }}
+          >
+            <div
+              style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="none"
+                stroke="var(--color-primary)"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="feather feather-credit-card"
+              >
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+                <line x1="1" y1="10" x2="23" y2="10" />
+              </svg>
+              <h3 style={{ fontSize: "1.2rem", margin: 0 }}>
+                Opción 2: Transferencia
+              </h3>
+            </div>
+            <p style={{ margin: 0 }}>
+              <strong>IBAN:</strong> ES18 1583 0001 1290 9345 5264
+            </p>
+          </div>
+        </div>
+
+        {/* Icono de check final */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="64"
@@ -125,10 +297,10 @@ export default function Signup() {
   return (
     <div>
       <section id="formulario" className="formulario">
-        <h2 className="titulo">Inscribe a tu equipo</h2>
+        <div className="titulo">Inscribe a tu equipo</div>
         <form onSubmit={handleSubmit} noValidate>
           <label>
-            Nombre del equipo
+            <h4>Nombre del equipo</h4>
             <input
               type="text"
               maxLength={30}
@@ -158,6 +330,53 @@ export default function Signup() {
               ))}
             </div>
             {errors.category && <p className="error">{errors.category}</p>}
+          </label>
+
+          <label className="players-label">
+            <div className="players-container">
+              {players.map((player, index) => (
+                <div key={index} className="player-group">
+                  <h4>
+                    {index === 0
+                      ? "Capitán del equipo"
+                      : `Jugador ${index + 1}${
+                          index === 3 ? " (opcional)" : ""
+                        }`}
+                  </h4>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      placeholder="Nombre"
+                      value={player.nombre}
+                      onChange={(e) =>
+                        handlePlayerChange(index, "nombre", e.target.value)
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Primer apellido"
+                      value={player.apellido}
+                      onChange={(e) =>
+                        handlePlayerChange(index, "apellido", e.target.value)
+                      }
+                    />
+                    <input
+                      type="number"
+                      placeholder="Año de nacimiento"
+                      value={player.nacimiento}
+                      onChange={(e) =>
+                        handlePlayerChange(index, "nacimiento", e.target.value)
+                      }
+                      className="year-input"
+                    />
+                  </div>
+
+                  {errors[`jugador${index + 1}`] && (
+                    <p className="error">{errors[`jugador${index + 1}`]}</p>
+                  )}
+                </div>
+              ))}
+            </div>
           </label>
 
           <label className="toggle-label">

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
-    const { nombre, categoria, whatsapp, local } = await req.json();
+    const { nombre, categoria, whatsapp, local, jugadores } = await req.json();
 
     const AIRTABLE_API_TOKEN = process.env.AIRTABLE_API_TOKEN!;
     const BASE_ID = process.env.AIRTABLE_BASE_ID!;
@@ -22,6 +22,7 @@ export async function POST(req: NextRequest) {
             Categoría: categoria,
             Whatsapp: whatsapp,
             Local: local,
+            Jugadores: jugadores,
             Status: "En espera", // valor por defecto
           },
         }),

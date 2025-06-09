@@ -7,13 +7,15 @@
     text-align: center;
     font-size: 2rem;
     font-weight: 700;
-    margin-bottom: 2rem;
     color: var(--color-primary);
+    width: 100%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
 
   form {
     background: white;
-    padding: 2rem;
+    padding: 0 2rem 2rem 2rem;
     border-radius: var(--border-radius);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
     display: flex;
@@ -30,7 +32,6 @@
 
     input[type="text"],
     input[type="tel"] {
-      margin-top: 0.5rem;
       padding: 0.75rem;
       border: 1px solid #ccc;
       border-radius: 0.5rem;
@@ -161,5 +162,39 @@
     font-size: 1rem;
     cursor: pointer;
     transition: transform 0.3s ease;
+  }
+}
+
+.players-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.player-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.player-group h4 {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.input-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+
+  input {
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    flex: 1 1 180px;
+  }
+
+  .year-input {
+    flex: 0 0 100px;
   }
 }
