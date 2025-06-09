@@ -12,7 +12,12 @@ interface Player {
 const categories = ["Senior", "Femenino", "Mini", "Peques"] as const;
 
 const normalizeSpaces = (str: string): string => {
-  return str.replace(/\s+/g, " ").trim();
+  return str
+    .replace(/\s+/g, " ") // Elimina espacios extra
+    .trim() // Quita espacios al inicio y final
+    .split(" ") // Separa por palabras
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitaliza cada palabra
+    .join(" "); // Une las palabras nuevamente
 };
 
 export default function Signup() {
