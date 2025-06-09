@@ -1,12 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./page.scss";
 
 interface Player {
   nombre: string;
   apellido: string;
   nacimiento: string; // usamos string para evitar problemas con inputs numéricos
+}
+
+interface SignupData {
+  teamName: string;
+  selectedCategory: (typeof categories)[number] | "";
+  isLocal: boolean;
+  whatsapp: string;
+  players: Player[];
+  privacyAccepted: boolean;
 }
 
 const categories = ["Senior", "Femenino", "Mini", "Peques"] as const;
@@ -43,6 +52,14 @@ export default function Signup() {
   const [submitError, setSubmitError] = useState("");
   const [sendingForm, setSendingForm] = useState(false);
   const [submitTried, setSubmitTried] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("signupData");
+
+    if (saved) {
+      setSubmitted(true);
+    }
+  }, []);
 
   const handleCategoryClick = (cat: (typeof categories)[number]) => {
     setSelectedCategory(cat);
@@ -236,6 +253,16 @@ export default function Signup() {
       if (res.ok) {
         setSubmitted(true);
         setSendingForm(false);
+
+        const data: SignupData = {
+          teamName,
+          selectedCategory,
+          isLocal,
+          whatsapp,
+          players,
+          privacyAccepted,
+        };
+        localStorage.setItem("signupData", JSON.stringify(data));
       } else {
         const errorData = await res.json();
         setSubmitError(
