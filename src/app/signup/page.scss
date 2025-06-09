@@ -36,6 +36,8 @@
       border: 1px solid #ccc;
       border-radius: 0.5rem;
       font-size: 1rem;
+      max-width: 400px;
+
       &:focus {
         outline: none;
         border-color: var(--color-2);
@@ -64,6 +66,7 @@
     flex-direction: column; /* vertical */
     gap: 0.75rem;
     width: 100%;
+    max-width: 400px;
   }
 
   .category-btn {
@@ -167,6 +170,7 @@
     font-size: 1rem;
     cursor: pointer;
     transition: transform 0.3s ease;
+    max-width: 400px;
   }
 }
 
