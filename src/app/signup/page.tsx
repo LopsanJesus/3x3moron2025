@@ -26,6 +26,8 @@ export default function Signup() {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [sendingForm, setSendingForm] = useState(false);
+  const [submitTried, setSubmitTried] = useState(false);
 
   const handleCategoryClick = (cat: (typeof categories)[number]) => {
     setSelectedCategory(cat);
@@ -51,6 +53,11 @@ export default function Signup() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    setSubmitTried(true);
+
+    if (sendingForm) return;
+
     const newErrors: typeof errors = {};
 
     if (!teamName.trim()) {
@@ -113,6 +120,8 @@ export default function Signup() {
       .join("\n");
 
     try {
+      setSendingForm(true);
+
       const res = await fetch("/api/equipos", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -127,11 +136,13 @@ export default function Signup() {
 
       if (res.ok) {
         setSubmitted(true);
+        setSendingForm(false);
       } else {
         const errorData = await res.json();
         setSubmitError(
           errorData.error || "Error desconocido al enviar el formulario"
         );
+        setSendingForm(false);
       }
     } catch (error) {
       console.error("Error al enviar el formulario:", error);
@@ -309,7 +320,7 @@ export default function Signup() {
         <div className="titulo">Inscribe a tu equipo</div>
         <form onSubmit={handleSubmit} noValidate>
           <label>
-            <h4>Nombre del equipo</h4>
+            <p>Nombre del equipo</p>
             <input
               type="text"
               maxLength={30}
@@ -322,7 +333,7 @@ export default function Signup() {
           </label>
 
           <label className="category-label">
-            Categoría
+            <p>Categoría</p>
             <div className="category-buttons">
               {categories.map((cat) => (
                 <button
@@ -389,7 +400,7 @@ export default function Signup() {
           </label>
 
           <label className="toggle-label">
-            Equipo local
+            <p>Equipo local</p>
             <div className="toggle-container">
               <input
                 type="checkbox"
@@ -406,7 +417,7 @@ export default function Signup() {
           </p>
 
           <label>
-            Whatsapp de contacto
+            <p>Whatsapp de contacto</p>
             <input
               type="tel"
               value={whatsapp}
@@ -442,9 +453,17 @@ export default function Signup() {
             {errors.privacy && <p className="error">{errors.privacy}</p>}
           </label>
 
-          <button type="submit" className="submit-btn">
-            Enviar inscripción
-          </button>
+          <div>
+            {Object.keys(errors).length > 0 && submitTried && (
+              <p className="error submit-error">
+                Solicitud no enviada, hay algún campo incorrecto o incompleto.
+              </p>
+            )}
+
+            <button type="submit" className="submit-btn">
+              {sendingForm ? "Enviando..." : "Enviar inscripción"}
+            </button>
+          </div>
         </form>
       </section>
     </div>
