@@ -11,6 +11,10 @@ interface Player {
 
 const categories = ["Senior", "Femenino", "Mini", "Peques"] as const;
 
+const normalizeSpaces = (str: string): string => {
+  return str.replace(/\s+/g, " ").trim();
+};
+
 export default function Signup() {
   const [selectedCategory, setSelectedCategory] = useState<
     "Senior" | "Femenino" | "Mini" | "Peques" | ""
@@ -201,7 +205,12 @@ export default function Signup() {
         }
         return false;
       })
-      .map((p) => `${p.nombre} ${p.apellido} ${p.nacimiento}`)
+      .map(
+        (p) =>
+          `${normalizeSpaces(p.nombre)} ${normalizeSpaces(
+            p.apellido
+          )} ${normalizeSpaces(p.nacimiento)}`
+      )
       .join("\n");
 
     try {
@@ -211,7 +220,7 @@ export default function Signup() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          nombre: teamName,
+          nombre: normalizeSpaces(teamName),
           categoria: selectedCategory,
           whatsapp,
           local: isLocal,
