@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-
 import "./page.scss";
 
 export default function HomePage() {
@@ -83,6 +82,13 @@ export default function HomePage() {
             <h3>🏀 Concurso de triples</h3>
             <p>
               ¡Demuestra tu puntería y gana premios en el concurso de triples!
+            </p>
+          </div>
+          <div className="card">
+            <h3>💦 Acceso a la piscina</h3>
+            <p>
+              Disfruta de acceso gratuito a la piscina municipal durante las
+              horas más calurosas del día.
             </p>
           </div>
           <div className="card">
