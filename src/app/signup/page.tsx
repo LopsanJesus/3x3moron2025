@@ -21,6 +21,8 @@ export default function Signup() {
     { nombre: "", apellido: "", nacimiento: "" }, // Opcional
   ]);
 
+  const [privacyAccepted, setPrivacyAccepted] = useState(false);
+
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -56,6 +58,10 @@ export default function Signup() {
     } else if (!validateTeamName(teamName)) {
       newErrors.teamName =
         "El nombre solo puede contener letras, números, guiones (-), signos más (+) y espacios";
+    } else if (teamName.length < 3) {
+      newErrors.teamName = "El nombre debe tener al menos 3 caracteres";
+    } else if (teamName.length > 30) {
+      newErrors.teamName = "El nombre debe tener menos de 30 caracteres";
     }
 
     if (!selectedCategory) newErrors.category = "Selecciona una categoría";
@@ -90,6 +96,9 @@ export default function Signup() {
     if (!whatsapp.trim()) newErrors.whatsapp = "El Whatsapp es obligatorio";
     else if (!/^\d{9}$/.test(whatsapp.replace(/\D/g, "")))
       newErrors.whatsapp = "Número de Whatsapp no válido";
+
+    if (!privacyAccepted)
+      newErrors.privacy = "Debes aceptar la política de privacidad";
 
     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) return;
@@ -165,9 +174,9 @@ export default function Signup() {
           }}
         >
           <p style={{ margin: 0, fontWeight: 600 }}>
-            Tu inscripción aún <u>no está completada</u>. Necesitas realizar el
-            pago y enviar el justificante por Whatsapp a uno de los
-            organizadores.
+            La inscripción de {teamName} aún <u>no está completada</u>.
+            Necesitas realizar el pago y enviar el justificante por Whatsapp a
+            uno de los organizadores.
           </p>
         </div>
 
@@ -414,6 +423,24 @@ export default function Signup() {
             La organización no reservará plaza hasta que no realices el envío
             del justificante de pago.
           </p>
+
+          <label className="privacy-label">
+            <div className="privacy-checkbox">
+              <input
+                type="checkbox"
+                id="privacy"
+                checked={privacyAccepted}
+                onChange={() => setPrivacyAccepted(!privacyAccepted)}
+              />
+              <span>
+                Acepto la{" "}
+                <a href="/privacy" target="_blank" rel="noopener noreferrer">
+                  política de privacidad
+                </a>
+              </span>
+            </div>
+            {errors.privacy && <p className="error">{errors.privacy}</p>}
+          </label>
 
           <button type="submit" className="submit-btn">
             Enviar inscripción
