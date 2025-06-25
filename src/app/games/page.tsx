@@ -5,6 +5,7 @@ import GameList from "@/components/GameList";
 import PageTemplate from "@/components/PageTemplate";
 import { AirtableGame, Category, Game } from "@/types";
 
+import Loader from "@/components/Loader";
 import {
   transformAirtableToGame,
   validCategories,
@@ -39,7 +40,7 @@ export default function GamesPage() {
     fetchPartidos();
   }, []);
 
-  if (loading) return <p>Cargando partidos...</p>;
+  if (loading) return <Loader />;
   if (error) return <p>Error: {error}</p>;
 
   // Filtramos según categoría y si se deben mostrar completados
