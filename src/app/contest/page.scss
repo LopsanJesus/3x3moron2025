@@ -1,0 +1,32 @@
+.players-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0 1rem;
+
+  .section-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin: 1rem 0 0.5rem;
+    color: var(--color-primary);
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.25rem;
+  }
+
+  .player-row {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    background: white;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    font-size: 0.95rem;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .player-name {
+    font-weight: 600;
+    word-break: break-word;
+  }
+}

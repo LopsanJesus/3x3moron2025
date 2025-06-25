@@ -1,0 +1,12 @@
+.games-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.no-games {
+  text-align: center;
+  font-style: italic;
+  color: #666;
+  padding: 2rem 0;
+}

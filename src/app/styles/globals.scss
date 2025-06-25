@@ -5,6 +5,16 @@
   --color-4: #dfe0df;
   --font: "Outfit", sans-serif;
   --border-radius: 999px;
+
+  --color-senior: #d0e7ff;
+  --color-femenino: #e0ffe4;
+  --color-mini: #fffbe0;
+  --color-peques: #e8e0ff;
+
+  --color-senior-dark: #82a6c6;
+  --color-femenino-dark: #99c6a4;
+  --color-mini-dark: #ccc99f;
+  --color-peques-dark: #a69bc9;
 }
 
 body {
@@ -14,4 +24,6 @@ body {
   color: #111;
   line-height: 1.6;
   scroll-behavior: smooth;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
