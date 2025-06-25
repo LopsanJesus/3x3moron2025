@@ -14,6 +14,8 @@ export default function GameListItem({ game, isOpen, onToggle }: Props) {
     game.scoreB !== null &&
     (game.scoreA > 0 || game.scoreB > 0);
 
+  const gameTime = game.time === "NaN:NaN" ? "TBD" : game.time;
+
   return (
     <div className={`game-card ${game.category}`} onClick={onToggle}>
       <div className="header-row">
@@ -40,7 +42,7 @@ export default function GameListItem({ game, isOpen, onToggle }: Props) {
               <span className="score">{game.scoreB}</span>
             </>
           ) : (
-            <span className="time">{game.time}</span>
+            <span className="time">{gameTime}</span>
           )}
         </div>
       </div>
