@@ -16,11 +16,20 @@
     color: var(--color-primary);
     text-decoration: none;
     transition: color 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:focus-visible {
+      outline: none;
+    }
   }
 
   .nav-item.active {
-    color: var(--color-accent, #000);
-    font-weight: bold;
+    border-bottom: 2px solid var(--color-primary);
   }
 
   .nav-icon {

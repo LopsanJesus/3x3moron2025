@@ -1,4 +1,10 @@
-import { AirtableGame, Category, Game } from "@/types";
+import {
+  AirtableContestPlayer,
+  AirtableGame,
+  Category,
+  ContestPlayer,
+  Game,
+} from "@/types";
 
 export const validCategories = [
   "Senior",
@@ -40,6 +46,25 @@ export function transformAirtableToGame(records: AirtableGame[]): Game[] {
       time: transformSecondsToTime(record.Hora),
       court: record.Pista,
       phase: record.Fase,
+    };
+  });
+}
+
+export function transformAirtableToContestPlayers(
+  records: AirtableContestPlayer[]
+): ContestPlayer[] {
+  return records.map((record, index) => {
+    console.log("record", record);
+
+    return {
+      id: index + 1,
+      name: record.Nombre,
+      paid: record.Pagado,
+      semifinal: record.ASemis,
+      final: record.ALaFinal,
+      score1: record.Ronda1,
+      score2: record.Ronda2,
+      score3: record.Ronda3,
     };
   });
 }

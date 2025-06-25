@@ -1,79 +1,57 @@
 "use client";
 import { useMemo } from "react";
 
-import Topbar from "@/components/Topbar";
+import Loader from "@/components/Loader";
+import PageTemplate from "@/components/PageTemplate";
+import { useContest } from "@/hooks/useContest";
+import { ContestPlayer } from "@/types";
 
-import Navbar from "@/components/Navbar";
 import "./page.scss";
 
-type Player = {
-  id: number;
-  name: string;
-  score1?: number;
-  score2?: number;
-  score3?: number;
-};
-
-const players = [
-  { id: 1, name: "Juan Pérez", score1: 10, score2: 15, score3: 20 },
-  { id: 2, name: "Lucía Gómez", score1: 12, score2: 14 },
-  { id: 3, name: "Carlos Díaz", score1: 11 },
-  { id: 4, name: "Ana Torres", score1: 13, score2: 16, score3: 18 },
-  { id: 5, name: "Sofía Ruiz", score1: 14 },
-];
-
 export default function ContestPage() {
+  const { players, loading, error } = useContest();
+
   const final = useMemo(
-    () =>
-      players
-        .filter((p) => p.score3 !== undefined)
-        .sort((a, b) => getTotalScore(b) - getTotalScore(a)),
-    []
+    () => players.filter((p) => p.final === true),
+    [players]
   );
 
   const semifinal = useMemo(
-    () =>
-      players
-        .filter((p) => p.score3 === undefined && p.score2 !== undefined)
-        .sort((a, b) => getTotalScore(b) - getTotalScore(a)),
-    []
+    () => players.filter((p) => p.semifinal === true && p.final !== true),
+    [players]
   );
 
   const initial = useMemo(
-    () =>
-      players
-        .filter((p) => p.score2 === undefined)
-        .sort((a, b) => getTotalScore(b) - getTotalScore(a)),
-    []
+    () => players.filter((p) => p.final !== true && p.semifinal !== true),
+    [players]
   );
 
-  function getTotalScore(player: Player) {
-    return (player.score1 || 0) + (player.score2 || 0) + (player.score3 || 0);
-  }
-
-  const renderRow = (player: Player) => (
+  const renderRow = (player: ContestPlayer) => (
     <div key={player.id} className="player-row">
       <span className="player-name">{player.name}</span>
-      <span>{player.score1 ?? "-"}</span>
-      <span>{player.score2 ?? "-"}</span>
-      <span>{player.score3 ?? "-"}</span>
+      <span className="player-score">{player.score1 ?? "-"}</span>
+      <span className="player-score">{player.score2 ?? "-"}</span>
+      <span className="player-score">{player.score3 ?? "-"}</span>
     </div>
   );
 
-  return (
-    <div className="games-page">
-      <Topbar />
+  if (loading) return <Loader />;
+  if (error) return <div>Error: {error}</div>;
 
+  console.log("players", players);
+
+  return (
+    <PageTemplate>
       <div className="players-list">
         {final.length > 0 && (
           <>
-            <div className="section-title">🏆 Clasificados a Final</div>
+            <div className="section-title">🏆 Final</div>
             {final.map(renderRow)}
           </>
         )}
         {semifinal.length > 0 && (
           <>
-            <div className="section-title">🎯 Clasificados a Semifinal</div>
+            <div className="section-title">🎯 Semifinal</div>
             {semifinal.map(renderRow)}
           </>
         )}
@@ -84,8 +62,6 @@ export default function ContestPage() {
           </>
         )}
       </div>
-
-      <Navbar />
-    </div>
+    </PageTemplate>
   );
 }

@@ -23,3 +23,25 @@ export type AirtableGame = {
   Nombre2: string;
   Puntos2: number | null;
 };
+
+export type ContestPlayer = {
+  id: number;
+  name: string;
+  paid: boolean;
+  semifinal: boolean;
+  final: boolean;
+  score1?: number;
+  score2?: number;
+  score3?: number;
+};
+
+export type AirtableContestPlayer = {
+  id: string;
+  Nombre: string;
+  Pagado: boolean;
+  ASemis: boolean;
+  ALaFinal: boolean;
+  Ronda1: number;
+  Ronda2: number;
+  Ronda3: number;
+};
