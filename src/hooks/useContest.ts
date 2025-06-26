@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { ContestPlayer } from "@/types";
 import { transformAirtableToContestPlayers } from "@/utils/transformData";
 
-export function useContest() {
+export default function useContest() {
   const [players, setPlayers] = useState<ContestPlayer[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -14,11 +14,10 @@ export function useContest() {
         const res = await fetch("/api/contest");
 
         if (!res.ok) {
-          const errorData = await res.json();
-          throw new Error(errorData.error || "Error al cargar los datos");
+          throw new Error("Error al obtener los jugadores");
         }
 
-        const data = await res.json();
+        const data: ContestPlayer[] = await res.json();
 
         setPlayers(transformAirtableToContestPlayers(data));
       } catch (err) {

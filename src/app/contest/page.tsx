@@ -3,13 +3,13 @@ import { useMemo } from "react";
 
 import Loader from "@/components/Loader";
 import PageTemplate from "@/components/PageTemplate";
-import { useContest } from "@/hooks/useContest";
+import { useApi } from "@/contexts/ApiContext";
 import { ContestPlayer } from "@/types";
 
 import "./page.scss";
 
 export default function ContestPage() {
-  const { players, loading, error } = useContest();
+  const { players, loading } = useApi();
 
   const final = useMemo(
     () => players.filter((p) => p.final === true),
@@ -36,12 +36,9 @@ export default function ContestPage() {
   );
 
   if (loading) return <Loader />;
-  if (error) return <div>Error: {error}</div>;
-
-  console.log("players", players);
 
   return (
-    <PageTemplate>
+    <PageTemplate title="Concurso de triples">
       <div className="players-list">
         {final.length > 0 && (
           <>

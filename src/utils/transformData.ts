@@ -21,11 +21,25 @@ export function transformAirtableToGame(records: AirtableGame[]): Game[] {
   return records.map((record, index) => {
     // Obtener categoría, si es array tomar el primer elemento
     let rawCategory: string;
+    let team1Str: string;
+    let team2Str: string;
 
     if (Array.isArray(record.Categoría)) {
       rawCategory = record.Categoría.length > 0 ? record.Categoría[0] : "";
     } else {
       rawCategory = record.Categoría;
+    }
+
+    if (Array.isArray(record.Nombre1)) {
+      team1Str = record.Nombre1.length > 0 ? record.Nombre1[0] : "";
+    } else {
+      team1Str = record.Nombre1;
+    }
+
+    if (Array.isArray(record.Nombre2)) {
+      team2Str = record.Nombre2.length > 0 ? record.Nombre2[0] : "";
+    } else {
+      team2Str = record.Nombre2;
     }
 
     let categoryStr: Category = isValidCategory(rawCategory)
@@ -36,16 +50,18 @@ export function transformAirtableToGame(records: AirtableGame[]): Game[] {
     if (!isValidCategory(categoryStr)) {
       categoryStr = "Senior"; // valor por defecto
     }
+
     return {
       id: index + 1,
-      teamA: record.Nombre1,
-      teamB: record.Nombre2,
-      scoreA: record.Puntos1,
-      scoreB: record.Puntos2,
+      team1: team1Str,
+      team2: team2Str,
+      score1: record.Puntos1 || "-",
+      score2: record.Puntos2 || "-",
       category: categoryStr,
       time: transformSecondsToTime(record.Hora),
       court: record.Pista,
       phase: record.Fase,
+      group: record.Grupo,
     };
   });
 }
@@ -54,8 +70,6 @@ export function transformAirtableToContestPlayers(
   records: AirtableContestPlayer[]
 ): ContestPlayer[] {
   return records.map((record, index) => {
-    console.log("record", record);
-
     return {
       id: index + 1,
       name: record.Nombre,

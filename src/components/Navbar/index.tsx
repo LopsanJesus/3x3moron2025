@@ -10,10 +10,10 @@ export default function Navbar() {
   const pathname = usePathname();
 
   const navItems = [
-    { href: "/games", src: "/basketball_outline.jpg", alt: "Balón" },
-    { href: "/ranking", src: "/group_stage.jpg", alt: "Ranking" },
-    { href: "/contest", src: "/bracket-icon.jpg", alt: "Concurso" },
-    { href: "/eliminatorias", src: "/stopwatch.jpg", alt: "Eliminatorias" },
+    { href: "/games", src: "/basketball_outline.jpg", alt: "Basket" },
+    { href: "/groups", src: "/group_stage.jpg", alt: "Ranking" },
+    { href: "/brackets", src: "/bracket-icon.jpg", alt: "Eliminatorias" },
+    { href: "/contest", src: "/stopwatch.jpg", alt: "Concurso" },
   ];
 
   return (

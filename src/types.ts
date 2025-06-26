@@ -2,14 +2,15 @@ export type Category = "Senior" | "Femenino" | "Mini" | "Peques";
 
 export type Game = {
   id: number;
-  teamA: string;
-  teamB: string;
-  scoreA: number | null;
-  scoreB: number | null;
+  team1: string;
+  team2: string;
+  score1: string;
+  score2: string;
   category: Category;
   time: string;
   court: string;
   phase: string;
+  group: string;
 };
 
 export type AirtableGame = {
@@ -19,9 +20,10 @@ export type AirtableGame = {
   Categoría: string | string[];
   Fase: string;
   Nombre1: string;
-  Puntos1: number | null;
+  Puntos1: string;
   Nombre2: string;
-  Puntos2: number | null;
+  Puntos2: string;
+  Grupo: string;
 };
 
 export type ContestPlayer = {

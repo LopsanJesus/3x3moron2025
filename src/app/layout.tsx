@@ -1,5 +1,8 @@
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
+
+import { ApiProvider } from "@/contexts/ApiContext";
+
 import "./styles/globals.scss";
 
 export const metadata: Metadata = {
@@ -21,7 +24,7 @@ export default function RootLayout({
         />
       </head>
       <body>
-        {children}
+        <ApiProvider>{children}</ApiProvider>
         <Analytics />
       </body>
     </html>

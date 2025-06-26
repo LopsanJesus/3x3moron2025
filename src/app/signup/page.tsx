@@ -482,8 +482,6 @@ export default function Signup() {
           <label className="players-label">
             <div className="players-container">
               {players.map((player, index) => {
-                console.log(player);
-
                 return (
                   <div key={index} className="player-group">
                     <h4>

@@ -1,0 +1,96 @@
+.groups-page {
+  max-width: 500px;
+  margin: 0 auto;
+
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0.3rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+
+    .tab-button {
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: 1rem;
+      border: 1px solid var(--color-primary);
+      background: white;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &.Senior {
+        border-color: var(--color-senior-dark);
+      }
+
+      &.Femenino {
+        border-color: var(--color-femenino-dark);
+      }
+
+      &.Mini {
+        border-color: var(--color-mini-dark);
+      }
+
+      &.Peques {
+        border-color: var(--color-peques-dark);
+      }
+
+      &.active {
+        color: white;
+
+        &.Senior {
+          background: var(--color-senior-dark);
+        }
+
+        &.Femenino {
+          background: var(--color-femenino-dark);
+        }
+
+        &.Mini {
+          background: var(--color-mini-dark);
+        }
+
+        &.Peques {
+          background: var(--color-peques-dark);
+        }
+      }
+    }
+  }
+
+  .group-card {
+    margin-bottom: 1.5rem;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+    .group-title {
+      font-weight: bold;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      color: var(--color-primary);
+    }
+
+    .group-table {
+      display: grid;
+      grid-template-columns: 5fr 1fr 1fr 1fr;
+      gap: 0.5rem;
+
+      .table-header {
+        font-weight: 600;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 0.3rem;
+        display: contents;
+      }
+
+      .table-row {
+        display: contents;
+
+        span {
+          padding: 0.2rem 0;
+        }
+      }
+    }
+  }
+}

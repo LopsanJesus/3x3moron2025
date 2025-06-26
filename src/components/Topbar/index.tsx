@@ -11,7 +11,7 @@ interface TopbarProps {
 
 export default function Topbar({
   title = "3x3 MORÓN",
-  showProfile = true,
+  showProfile = false,
 }: TopbarProps) {
   return (
     <div className="topbar">

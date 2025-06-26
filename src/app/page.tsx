@@ -1,5 +1,6 @@
 "use client";
 
+import Button from "@/components/Button";
 import Image from "next/image";
 import "./page.scss";
 
@@ -17,9 +18,7 @@ export default function HomePage() {
             La 5ᵃ edición del torneo más refrescante del verano
           </span>
 
-          <a href="/signup" className="cta">
-            Inscribir mi equipo
-          </a>
+          <Button href="/signup">Inscribir mi equipo</Button>
         </div>
 
         <div className="scroll-indicator">

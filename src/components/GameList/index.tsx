@@ -12,7 +12,12 @@ export default function GameList({ games, activeCategory }: Props) {
   const [openGameId, setOpenGameId] = useState<number | null>(null);
 
   const filteredGames = games.filter(
-    (game) => game.category === activeCategory
+    (game) =>
+      game.category === activeCategory &&
+      game.team1 &&
+      game.team2 &&
+      game.team1 !== "Por definir" &&
+      game.team2 !== "Por definir"
   );
 
   // Ordenar juegos por hora ascendente
@@ -25,8 +30,6 @@ export default function GameList({ games, activeCategory }: Props) {
 
     return toMinutes(a.time) - toMinutes(b.time);
   });
-
-  console.log("sortedGames", sortedGames);
 
   const toggleGame = (id: number) => {
     setOpenGameId((prev) => (prev === id ? null : id));
