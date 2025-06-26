@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { ContestPlayer } from "@/types";
+import { AirtableContestPlayer, ContestPlayer } from "@/types";
 import { transformAirtableToContestPlayers } from "@/utils/transformData";
 
 export default function useContest() {
@@ -17,7 +17,7 @@ export default function useContest() {
           throw new Error("Error al obtener los jugadores");
         }
 
-        const data: ContestPlayer[] = await res.json();
+        const data: AirtableContestPlayer[] = await res.json();
 
         setPlayers(transformAirtableToContestPlayers(data));
       } catch (err) {
