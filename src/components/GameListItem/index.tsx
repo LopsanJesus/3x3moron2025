@@ -51,12 +51,9 @@ export default function GameListItem({ game, isOpen, onToggle }: Props) {
 
       {isOpen && (
         <div className="extra-info">
-          <p>
-            <strong>Categoría:</strong> {game.category}
-          </p>
-          <p>
-            <strong>Fase:</strong> {game.phase}
-          </p>
+          <span>{game.category}</span>
+          {hasScore && <span>{gameTime}</span>}
+          <span>{game.phase}</span>
         </div>
       )}
     </div>

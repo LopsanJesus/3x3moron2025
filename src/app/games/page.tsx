@@ -3,11 +3,12 @@
 import { useState } from "react";
 
 import GameList from "@/components/GameList";
-import PageTemplate from "@/components/PageTemplate";
-import { Category, Game } from "@/types";
-
+import GameListItem from "@/components/GameListItem";
 import Loader from "@/components/Loader";
+import PageTemplate from "@/components/PageTemplate";
 import { useApi } from "@/contexts/ApiContext";
+import { useNextGameForFavorite } from "@/hooks/useNextGameForFavorite";
+import { Category } from "@/types";
 import { validCategories } from "@/utils/transformData";
 import "./page.scss";
 
@@ -15,13 +16,17 @@ export default function GamesPage() {
   const [activeCategory, setActiveCategory] = useState<Category>("Senior");
   const [showCompleted, setShowCompleted] = useState(false);
 
-  const { games, loading } = useApi();
+  const { games, loading, favoriteTeam } = useApi();
+
+  const nextGameForFavorite = useNextGameForFavorite(games, favoriteTeam);
 
   if (loading) return <Loader />;
 
-  // Filtramos según categoría y si se deben mostrar completados
-  const filteredGames = games.filter((game: Game) => {
-    const isCompleted = game.score1 !== undefined && game.score2 !== undefined;
+  const filteredGames = games.filter((game) => {
+    const isCompleted = game.score1 && game.score2;
+
+    console.log("isCompleted", isCompleted);
+
     const matchesCategory = game.category === activeCategory;
 
     return matchesCategory && (showCompleted || !isCompleted);
@@ -43,6 +48,17 @@ export default function GamesPage() {
             </button>
           ))}
         </div>
+
+        {nextGameForFavorite && (
+          <div className="next-game">
+            <h3>Tu próximo partido</h3>
+            <GameListItem
+              game={nextGameForFavorite}
+              isOpen={false}
+              onToggle={() => {}}
+            />
+          </div>
+        )}
 
         <div className="checkbox-row">
           <label className="checkbox-label">

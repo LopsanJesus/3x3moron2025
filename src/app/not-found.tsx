@@ -2,15 +2,15 @@ import PageTemplate from "@/components/PageTemplate";
 
 import Button from "@/components/Button";
 
-import "./page.scss";
+import "./not-found.scss";
 
 export default function NotFound() {
   return (
-    <PageTemplate title="Página no encontrada">
+    <PageTemplate title="Hiciste un AIR BALL!">
       <div className="not-found-page">
-        <span>Lo sentimos</span>
+        <span>Página no encontrada.</span>
 
-        <Button href="/">Volver a inicio</Button>
+        <Button href="/?noRedirect=true">Volver a inicio</Button>
       </div>
     </PageTemplate>
   );

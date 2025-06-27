@@ -1,5 +1,4 @@
 .Button {
-  margin-top: 2rem;
   display: inline-block;
   padding: 1rem 2rem;
   background: var(--color-primary);
@@ -8,8 +7,14 @@
   text-decoration: none;
   font-weight: bold;
   transition: transform 0.3s ease;
+  text-align: center;
 
   &:hover {
     transform: scale(1.05);
+  }
+
+  &.small {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
   }
 }

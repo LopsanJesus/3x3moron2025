@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useMemo } from "react";
 
 import Loader from "@/components/Loader";
@@ -42,19 +43,46 @@ export default function ContestPage() {
       <div className="players-list">
         {final.length > 0 && (
           <>
-            <div className="section-title">🏆 Final</div>
+            <div className="section-title">
+              <Image
+                src="/final-icon.png"
+                alt="Final"
+                width={24}
+                height={24}
+                className="icon"
+              />
+              Final
+            </div>
             {final.map(renderRow)}
           </>
         )}
         {semifinal.length > 0 && (
           <>
-            <div className="section-title">🎯 Semifinal</div>
+            <div className="section-title">
+              <Image
+                src="/semifinals-icon.png"
+                alt="Semifinal"
+                width={24}
+                height={24}
+                className="icon"
+              />
+              Semifinal
+            </div>
             {semifinal.map(renderRow)}
           </>
         )}
         {initial.length > 0 && (
           <>
-            <div className="section-title">👥 Participantes</div>
+            <div className="section-title">
+              <Image
+                src="/participant-icon.png"
+                alt="Participantes"
+                width={24}
+                height={24}
+                className="icon"
+              />
+              Participantes
+            </div>
             {initial.map(renderRow)}
           </>
         )}

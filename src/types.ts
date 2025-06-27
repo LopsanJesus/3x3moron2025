@@ -1,5 +1,12 @@
 export type Category = "Senior" | "Femenino" | "Mini" | "Peques";
 
+export type Team = {
+  id: string;
+  name: string;
+  category: "senior" | "femenino" | "mini" | "peques";
+  status: "Inscrito" | "En Espera";
+};
+
 export type Game = {
   id: number;
   team1: string;

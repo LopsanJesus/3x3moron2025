@@ -10,9 +10,10 @@ export default function Navbar() {
   const pathname = usePathname();
 
   const navItems = [
+    { href: "/?noRedirect=true", src: "/home.png", alt: "Inicio" },
     { href: "/games", src: "/basketball_outline.jpg", alt: "Basket" },
     { href: "/groups", src: "/group_stage.jpg", alt: "Ranking" },
-    { href: "/brackets", src: "/bracket-icon.jpg", alt: "Eliminatorias" },
+    // { href: "/brackets", src: "/bracket-icon.jpg", alt: "Eliminatorias" },
     { href: "/contest", src: "/stopwatch.jpg", alt: "Concurso" },
   ];
 

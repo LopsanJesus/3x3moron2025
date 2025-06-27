@@ -1,3 +1,5 @@
+"use client";
+
 import { Category, Game } from "@/types";
 import { useState } from "react";
 import GameListItem from "../GameListItem";
@@ -5,7 +7,7 @@ import "./styles.scss";
 
 type Props = {
   games: Game[];
-  activeCategory: Category;
+  activeCategory?: Category; // <-- Ahora es opcional
 };
 
 export default function GameList({ games, activeCategory }: Props) {
@@ -13,7 +15,7 @@ export default function GameList({ games, activeCategory }: Props) {
 
   const filteredGames = games.filter(
     (game) =>
-      game.category === activeCategory &&
+      (!activeCategory || game.category === activeCategory) &&
       game.team1 &&
       game.team2 &&
       game.team1 !== "Por definir" &&
@@ -22,7 +24,6 @@ export default function GameList({ games, activeCategory }: Props) {
 
   // Ordenar juegos por hora ascendente
   const sortedGames = [...filteredGames].sort((a, b) => {
-    // Hora en formato "HH:MM" -> convertir a minutos para comparar
     const toMinutes = (time: string) => {
       const [h, m] = time.split(":").map(Number);
       return h * 60 + m;

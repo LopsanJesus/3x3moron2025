@@ -15,6 +15,14 @@
   --color-femenino-dark: #99c6a4;
   --color-mini-dark: #ccc99f;
   --color-peques-dark: #a69bc9;
+
+  --topbar-height: 4rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {

@@ -1,0 +1,126 @@
+.profile-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0 1rem;
+
+  .profile-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin: 1rem 0 0.5rem;
+    color: var(--color-primary);
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.25rem;
+  }
+
+  .team-card {
+    padding: 1rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 1rem;
+
+    .team-name {
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+
+    .team-category {
+      font-size: 0.85rem;
+      color: #444;
+      text-transform: capitalize;
+    }
+
+    &.senior {
+      background-color: var(--color-senior);
+      border-left: 5px solid var(--color-senior-dark);
+    }
+
+    &.femenino {
+      background-color: var(--color-femenino);
+      border-left: 5px solid var(--color-femenino-dark);
+    }
+
+    &.mini {
+      background-color: var(--color-mini);
+      border-left: 5px solid var(--color-mini-dark);
+    }
+
+    &.peques {
+      background-color: var(--color-peques);
+      border-left: 5px solid var(--color-peques-dark);
+    }
+  }
+
+  .team-placeholder {
+    padding: 1rem;
+    background: #f5f5f5;
+    border: 1px dashed #ccc;
+    border-radius: var(--border-radius);
+    font-style: italic;
+    color: #666;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .change-button {
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+  }
+
+  .team-actions {
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 1em;
+
+    .change-button-wrapper {
+      width: 80%; // toma todo el espacio disponible
+    }
+
+    .delete-button {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      width: 2.5rem;
+      height: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:hover {
+        background-color: #c0392b;
+      }
+
+      svg {
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+  }
+}

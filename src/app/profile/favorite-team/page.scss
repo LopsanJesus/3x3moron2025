@@ -1,0 +1,107 @@
+.favorite-team-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0 1rem;
+
+  .save-button-fixed {
+    position: fixed;
+    top: var(--topbar-height, 60px); // Ajusta según tu layout real
+    left: 0;
+    right: 0; // 🔧 Evita que se salga de la pantalla a la derecha
+    padding: 0.75rem 1rem; // 🔧 Mismo padding lateral que el resto del diseño
+    background: white;
+    z-index: 999;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    .confirm-button {
+      width: 100%;
+      max-width: 500px; // 🔧 Evita que se vea demasiado grande en tablets
+      margin: 0 auto; // 🔧 Centrado
+    }
+  }
+  button {
+    align-self: center;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+
+    &:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+  }
+
+  .category-group {
+    margin-bottom: 2rem;
+
+    .category-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+      padding: 0.35rem 0.75rem;
+      border-left: 5px solid currentColor;
+      background-color: #f5f5f5;
+      color: inherit;
+      border-radius: 4px;
+    }
+
+    &.senior .category-title {
+      color: var(--color-senior-dark);
+    }
+
+    &.femenino .category-title {
+      color: var(--color-femenino-dark);
+    }
+
+    &.mini .category-title {
+      color: var(--color-mini-dark);
+    }
+
+    &.peques .category-title {
+      color: var(--color-peques-dark);
+    }
+  }
+
+  .team-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .team-option {
+    padding: 1rem;
+    border-radius: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &.selected {
+      border: 2px solid var(--color-primary);
+    }
+  }
+
+  .category-group.senior .team-option {
+    background-color: var(--color-senior);
+  }
+
+  .category-group.femenino .team-option {
+    background-color: var(--color-femenino);
+  }
+
+  .category-group.mini .team-option {
+    background-color: var(--color-mini);
+  }
+
+  .category-group.peques .team-option {
+    background-color: var(--color-peques);
+  }
+}
