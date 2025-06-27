@@ -5,11 +5,11 @@ import Loader from "@/components/Loader";
 import PageTemplate from "@/components/PageTemplate";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 import "./page.scss";
 
-export default function HomePage() {
+function HomePageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [checkedVisit, setCheckedVisit] = useState(false);
@@ -17,7 +17,6 @@ export default function HomePage() {
   useEffect(() => {
     const noRedirect = searchParams.get("noRedirect");
     if (noRedirect === "true") {
-      // Si el parámetro está presente, no redirigir, solo marcar como visitado
       localStorage.setItem("hasVisited", "true");
       setCheckedVisit(true);
       return;
@@ -163,5 +162,13 @@ export default function HomePage() {
         </section>
       </main>
     </PageTemplate>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <Suspense fallback={<Loader />}>
+      <HomePageContent />
+    </Suspense>
   );
 }
