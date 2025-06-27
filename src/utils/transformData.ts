@@ -62,6 +62,7 @@ export function transformAirtableToGame(records: AirtableGame[]): Game[] {
       court: record.Pista,
       phase: record.Fase,
       group: record.Grupo,
+      code: record.Código,
     };
   });
 }
@@ -91,3 +92,29 @@ export function transformSecondsToTime(seconds: number): string {
 
   return `${pad(hrs)}:${pad(mins)}`;
 }
+
+export const calculateTeamsCode = (code: string, teamNumber: 1 | 2): string => {
+  const rounds = ["F", "SF", "CF", "OF", "DF"];
+  const roundIndex = rounds.indexOf(code.slice(0, -1));
+  const currentNumber =
+    roundIndex === 0 ? teamNumber : parseInt(code.slice(-1));
+
+  if (roundIndex === -1) {
+    return "-";
+  }
+
+  switch (rounds[roundIndex]) {
+    case "DF":
+      return "-";
+    case "OF":
+      return `DF${(currentNumber - 1) * 2 + teamNumber}`;
+    case "CF":
+      return `OF${(currentNumber - 1) * 2 + teamNumber}`;
+    case "SF":
+      return `CF${(currentNumber - 1) * 2 + teamNumber}`;
+    case "F":
+      return `SF${currentNumber}`;
+  }
+
+  return "-";
+};

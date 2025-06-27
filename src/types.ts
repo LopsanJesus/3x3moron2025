@@ -18,6 +18,7 @@ export type Game = {
   court: string;
   phase: string;
   group: string;
+  code: string;
 };
 
 export type AirtableGame = {
@@ -31,6 +32,7 @@ export type AirtableGame = {
   Nombre2: string;
   Puntos2: string;
   Grupo: string;
+  Código: string;
 };
 
 export type ContestPlayer = {

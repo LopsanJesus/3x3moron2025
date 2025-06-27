@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import CategoryTabs from "@/components/CategoryTabs";
 import GameList from "@/components/GameList";
 import GameListItem from "@/components/GameListItem";
 import Loader from "@/components/Loader";
@@ -9,7 +10,6 @@ import PageTemplate from "@/components/PageTemplate";
 import { useApi } from "@/contexts/ApiContext";
 import { useNextGameForFavorite } from "@/hooks/useNextGameForFavorite";
 import { Category } from "@/types";
-import { validCategories } from "@/utils/transformData";
 import "./page.scss";
 
 export default function GamesPage() {
@@ -35,19 +35,10 @@ export default function GamesPage() {
   return (
     <PageTemplate title="Partidos">
       <div className="games-page">
-        <div className="tabs">
-          {validCategories.map((cat) => (
-            <button
-              key={cat}
-              className={`tab-button ${cat} ${
-                cat === activeCategory ? "active" : ""
-              }`}
-              onClick={() => setActiveCategory(cat)}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
+        <CategoryTabs
+          activeCategory={activeCategory}
+          onChange={(cat) => setActiveCategory(cat)}
+        />
 
         {nextGameForFavorite && (
           <div className="next-game">

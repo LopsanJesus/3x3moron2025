@@ -1,0 +1,95 @@
+.eliminationMatches {
+  .eliminationMatchesFilter {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .eliminationMatchesFilterLabel {
+      font-size: 0.9rem;
+      color: var(--color-primary);
+    }
+  }
+
+  .rounds {
+    overflow-x: auto;
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 2rem;
+    gap: 1.5rem;
+
+    @media screen and (min-width: 900px) {
+      max-width: 100vw;
+
+      .round .eliminationMatch {
+        width: 300px !important;
+      }
+    }
+
+    .round {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+
+      .eliminationMatch {
+        width: 65vw;
+        background-color: var(--color-light-gray, #f0f0f0);
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+        text-transform: uppercase;
+
+        .matchTitle {
+          font-size: 0.75rem;
+          font-weight: 600;
+          text-align: center;
+          margin-bottom: 6px;
+          color: var(--color-primary);
+          text-transform: none;
+        }
+
+        .matchInfo {
+          margin-left: 5px;
+          margin-right: 10px;
+          font-size: 0.8rem;
+          color: var(--color-primary);
+        }
+
+        .separator {
+          width: 100%;
+          border-bottom: 1px solid #cccccc;
+        }
+
+        .teams {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+
+          .team {
+            margin: 10px;
+            font-size: 0.9rem;
+
+            &.winner {
+              font-weight: bold;
+              color: var(--color-primary);
+            }
+          }
+        }
+
+        .score {
+          width: 30px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          font-weight: bold;
+          color: var(--color-primary);
+        }
+      }
+    }
+  }
+}
