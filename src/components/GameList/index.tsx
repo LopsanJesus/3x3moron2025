@@ -1,40 +1,82 @@
 "use client";
 
+import useConfig from "@/hooks/useConfig";
 import { Category, Game } from "@/types";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import GameListItem from "../GameListItem";
+import Loader from "../Loader";
 import "./styles.scss";
 
 type Props = {
   games: Game[];
-  activeCategory?: Category; // <-- Ahora es opcional
+  activeCategory?: Category;
   excludedTeamName?: string;
   dontSort?: boolean;
+  excludeContest?: boolean;
 };
 
 export default function GameList({
   games,
   activeCategory,
   excludedTeamName,
-  dontSort,
+  dontSort = false,
+  excludeContest = false,
 }: Props) {
+  const router = useRouter();
+
   const [openGameId, setOpenGameId] = useState<number | null>(null);
+
+  const { config, loading, error } = useConfig();
+
+  const triplesStartTime = config?.find(
+    (item) => item.name === "HoraConcursoTriples"
+  )?.value;
+  const triplesEndTime = config?.find(
+    (item) => item.name === "HoraFinalConcursoTriples"
+  )?.value;
 
   const filteredGames = games.filter(
     (game) =>
       (!activeCategory || game.category === activeCategory) &&
       game.team1 &&
       game.team2 &&
-      game.team1 !== "Por definir" &&
-      game.team2 !== "Por definir" &&
       game.team1 !== excludedTeamName &&
       game.team2 !== excludedTeamName
   );
 
-  let sortedGames = filteredGames;
+  const makeSpecialGame = (id: number, time: string, label: string): Game => ({
+    id,
+    time,
+    team1: label,
+    team2: "",
+    score1: "",
+    score2: "",
+    category: "Senior",
+    court: "Pista 1 y 2", // o un valor como "Concurso"
+    phase: "", // o "Especial"
+    group: "", // si aplica
+    code: "special", // si es un identificador, pon algo como "special"
+  });
+
+  const gamesWithSpecials = [...filteredGames];
+
+  if (
+    !excludeContest &&
+    triplesStartTime &&
+    triplesEndTime &&
+    activeCategory !== "Peques"
+  ) {
+    gamesWithSpecials.push(
+      makeSpecialGame(-1, triplesStartTime, "🏀 Concurso de Triples"),
+      makeSpecialGame(-2, triplesEndTime, "🏁 Final Concurso de Triples")
+    );
+  }
+
+  let sortedGames = gamesWithSpecials;
 
   if (!dontSort) {
-    sortedGames = [...filteredGames].sort((a, b) => {
+    sortedGames = [...gamesWithSpecials].sort((a, b) => {
       const toMinutes = (time: string) => {
         const [h, m] = time.split(":").map(Number);
         return h * 60 + m;
@@ -44,13 +86,13 @@ export default function GameList({
     });
   }
 
-  const finishedGames = sortedGames.filter((game) => {
-    return game.score1.trim() !== "" && game.score2.trim() !== "";
-  });
+  const finishedGames = sortedGames.filter(
+    (game) => game.score1.trim() !== "" && game.score2.trim() !== ""
+  );
 
-  const upcomingGames = sortedGames.filter((game) => {
-    return game.score1.trim() === "" || game.score2.trim() === "";
-  });
+  const upcomingGames = sortedGames.filter(
+    (game) => game.score1.trim() === "" || game.score2.trim() === ""
+  );
 
   const allGames = [...upcomingGames, ...finishedGames];
 
@@ -58,9 +100,17 @@ export default function GameList({
     setOpenGameId((prev) => (prev === id ? null : id));
   };
 
+  useEffect(() => {
+    if (error) {
+      router.push("/error");
+    }
+  }, [error, router]);
+
   if (allGames.length === 0) {
     return <p className="no-games">No hay partidos para esta categoría.</p>;
   }
+
+  if (loading) return <Loader />;
 
   return (
     <div className="games-list">

@@ -118,3 +118,32 @@
     }
   }
 }
+
+.game-pill {
+  background-color: #ffe083;
+  color: #222;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 999px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  word-break: break-word;
+}
+
+.pill-time {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-bottom: 0.25rem;
+}
+
+.pill-label {
+  font-size: 1rem;
+  font-weight: 600;
+  white-space: normal;
+}

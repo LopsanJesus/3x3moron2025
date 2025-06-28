@@ -19,8 +19,10 @@ const formatPhase = (phase: string, group: string, code: string) => {
         return "Cuartos";
       case "SF":
         return "Semifinales";
-      case "F":
+      case "FN":
         return "Final";
+      case "3/":
+        return "3/4 Puesto";
       default:
         return "Eliminatorias";
     }
@@ -28,6 +30,17 @@ const formatPhase = (phase: string, group: string, code: string) => {
 };
 
 export default function GameListItem({ game, isOpen, onToggle }: Props) {
+  const isSpecialEvent = game.code === "special" && game.team2 === "";
+
+  if (isSpecialEvent) {
+    return (
+      <div className="game-pill">
+        <span className="pill-time">{game.time}</span>
+        <span className="pill-label">{game.team1}</span>
+      </div>
+    );
+  }
+
   const score1 = parseInt(game.score1);
   const score2 = parseInt(game.score2);
 
@@ -51,7 +64,6 @@ export default function GameListItem({ game, isOpen, onToggle }: Props) {
       <div className="header-row">
         <div className="court">{game.court}</div>
         {!hasScore && <div className="time">{gameTime}</div>}
-
         <div className="expand-icon">
           {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
         </div>

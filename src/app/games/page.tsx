@@ -32,9 +32,6 @@ export default function GamesPage() {
     return matchesCategory;
   });
 
-  console.log("favteam", favoriteTeam);
-  console.log("active", activeCategory);
-
   return (
     <PageTemplate title="Partidos">
       <div className="games-page">
@@ -53,6 +50,7 @@ export default function GamesPage() {
                 games={nextGamesForFavorite}
                 activeCategory={activeCategory}
                 dontSort
+                excludeContest
               />
             </div>
           )}

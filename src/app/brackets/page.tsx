@@ -124,7 +124,7 @@ export default function BracketPage() {
                   >
                     <div className="matchHeader">
                       <div className="matchTitle">
-                        {roundFullNames[round]} {index + 1}
+                        {roundFullNames[round]} {round !== "F" && index + 1}
                       </div>
                       {(game.time || game.court) && (
                         <div className="matchInfo">

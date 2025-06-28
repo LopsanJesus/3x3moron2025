@@ -10,6 +10,26 @@
     padding: 1rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 
+    &.senior {
+      border-color: var(--color-senior-dark);
+      background-color: var(--color-senior);
+    }
+
+    &.femenino {
+      border-color: var(--color-femenino-dark);
+      background-color: var(--color-femenino);
+    }
+
+    &.mini {
+      border-color: var(--color-mini-dark);
+      background-color: var(--color-mini);
+    }
+
+    &.peques {
+      border-color: var(--color-peques-dark);
+      background-color: var(--color-peques);
+    }
+
     .group-title {
       font-weight: bold;
       font-size: 1.1rem;

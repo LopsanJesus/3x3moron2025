@@ -34,7 +34,10 @@ export default function GroupsPage() {
 
         <div className="groups-container">
           {categoryStats?.groups.map((group) => (
-            <div key={group.group} className="group-card">
+            <div
+              key={group.group}
+              className={`group-card ${activeCategory.toLowerCase()}`}
+            >
               <div className="group-title">Grupo {group.group}</div>
               <div className="group-table">
                 <div className="table-header">
