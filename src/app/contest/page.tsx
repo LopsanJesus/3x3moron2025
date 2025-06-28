@@ -13,17 +13,44 @@ export default function ContestPage() {
   const { players, loading } = useApi();
 
   const final = useMemo(
-    () => players.filter((p) => p.final === true),
+    () =>
+      players
+        .filter((p) => p.final === true)
+        .sort((a, b) => {
+          const primaryA = a.score3 ?? -1;
+          const primaryB = b.score3 ?? -1;
+          if (primaryA !== primaryB) return primaryB - primaryA;
+
+          // En caso de empate o sin score3, ordenar por score2
+          const secondaryA = a.score2 ?? -1;
+          const secondaryB = b.score2 ?? -1;
+          return secondaryB - secondaryA;
+        }),
     [players]
   );
 
   const semifinal = useMemo(
-    () => players.filter((p) => p.semifinal === true && p.final !== true),
+    () =>
+      players
+        .filter((p) => p.semifinal === true && p.final !== true)
+        .sort((a, b) => {
+          const primaryA = a.score2 ?? -1;
+          const primaryB = b.score2 ?? -1;
+          if (primaryA !== primaryB) return primaryB - primaryA;
+
+          // En caso de empate o sin score2, ordenar por score1
+          const secondaryA = a.score1 ?? -1;
+          const secondaryB = b.score1 ?? -1;
+          return secondaryB - secondaryA;
+        }),
     [players]
   );
 
   const initial = useMemo(
-    () => players.filter((p) => p.final !== true && p.semifinal !== true),
+    () =>
+      players
+        .filter((p) => p.final !== true && p.semifinal !== true)
+        .sort((a, b) => (b.score1 ?? 0) - (a.score1 ?? 0)),
     [players]
   );
 
