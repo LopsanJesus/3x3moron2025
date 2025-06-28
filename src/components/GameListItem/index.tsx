@@ -1,11 +1,8 @@
 import { Game } from "@/types";
-import { ChevronDown, ChevronUp } from "lucide-react";
 import "./styles.scss";
 
 type Props = {
   game: Game;
-  isOpen: boolean;
-  onToggle: () => void;
 };
 
 const formatPhase = (phase: string, group: string, code: string) => {
@@ -29,7 +26,7 @@ const formatPhase = (phase: string, group: string, code: string) => {
   }
 };
 
-export default function GameListItem({ game, isOpen, onToggle }: Props) {
+export default function GameListItem({ game }: Props) {
   const isSpecialEvent = game.code === "special" && game.team2 === "";
 
   if (isSpecialEvent) {
@@ -57,16 +54,10 @@ export default function GameListItem({ game, isOpen, onToggle }: Props) {
   const isTeam2Winner = hasScore && score2 > score1;
 
   return (
-    <div
-      className={`game-card ${game.category} ${hasScore ? "finished" : ""}`}
-      onClick={onToggle}
-    >
+    <div className={`game-card ${game.category} ${hasScore ? "finished" : ""}`}>
       <div className="header-row">
         <div className="court">{game.court}</div>
         {!hasScore && <div className="time">{gameTime}</div>}
-        <div className="expand-icon">
-          {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-        </div>
       </div>
 
       <div className="content-row">
@@ -103,13 +94,11 @@ export default function GameListItem({ game, isOpen, onToggle }: Props) {
         </div>
       </div>
 
-      {isOpen && (
-        <div className="extra-info">
-          <span>{game.category}</span>
-          {hasScore && <span>{gameTime}</span>}
-          <span>{formatPhase(game.phase, game.group, game.code)}</span>
-        </div>
-      )}
+      <div className="extra-info">
+        <span>{game.category}</span>
+        {hasScore && <span>{gameTime}</span>}
+        <span>{formatPhase(game.phase, game.group, game.code)}</span>
+      </div>
     </div>
   );
 }

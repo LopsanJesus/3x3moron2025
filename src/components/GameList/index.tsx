@@ -3,7 +3,7 @@
 import useConfig from "@/hooks/useConfig";
 import { Category, Game } from "@/types";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import GameListItem from "../GameListItem";
 import Loader from "../Loader";
 
@@ -30,8 +30,6 @@ export default function GameList({
   excludeContest = false,
 }: Props) {
   const router = useRouter();
-
-  const [openGameId, setOpenGameId] = useState<number | null>(null);
 
   const { config, loading, error } = useConfig();
 
@@ -117,10 +115,6 @@ export default function GameList({
 
   const allGames = [...upcomingGames, ...finishedGames];
 
-  const toggleGame = (id: number) => {
-    setOpenGameId((prev) => (prev === id ? null : id));
-  };
-
   useEffect(() => {
     if (error) {
       router.push("/error");
@@ -136,12 +130,7 @@ export default function GameList({
   return (
     <div className="games-list">
       {allGames.map((game) => (
-        <GameListItem
-          key={game.id}
-          game={game}
-          isOpen={openGameId === game.id}
-          onToggle={() => toggleGame(game.id)}
-        />
+        <GameListItem key={game.id} game={game} />
       ))}
     </div>
   );
