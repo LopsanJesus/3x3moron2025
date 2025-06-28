@@ -40,6 +40,12 @@ export default function ContestPage() {
 
   return (
     <PageTemplate title="Concurso de triples">
+      {players.length < 10 && (
+        <div className="no-players">
+          <div>Acércate a algún organizador para inscribirte.</div>
+        </div>
+      )}
+
       <div className="players-list">
         {final.length > 0 && (
           <>

@@ -19,12 +19,13 @@ const roundFullNames: Record<string, string> = {
 };
 
 export default function BracketPage() {
-  const [activeCategory, setActiveCategory] = useState<Category>("Senior");
+  const { games, loading, favoriteTeam } = useApi();
+
+  const [activeCategory, setActiveCategory] = useState<Category>(
+    favoriteTeam?.category || "Senior"
+  );
   const [showOnlyFinalRounds, setShowOnlyFinalRounds] = useState(false);
 
-  const { games, loading } = useApi();
-
-  // Filtrar juegos de fase eliminatoria y categoría activa
   const eliminationGames = games.filter(
     (game) => game.phase === "Eliminatorias" && game.category === activeCategory
   );
@@ -49,16 +50,19 @@ export default function BracketPage() {
     );
   };
 
-  // Rondas visibles según filtro
   const visibleRounds = showOnlyFinalRounds
-    ? getAvailableRounds().slice(-3) // últimas 3 rondas (las finales)
+    ? getAvailableRounds().slice(-3)
     : getAvailableRounds();
 
-  console.log("visibleRounds", visibleRounds);
-
-  // Juegos por ronda
+  // 👇 Nueva función que ordena los juegos por el número que sigue al código de fase
   const getGamesByRound = (round: string): Game[] =>
-    eliminationGames.filter((g) => g.code.startsWith(round));
+    eliminationGames
+      .filter((g) => g.code.startsWith(round))
+      .sort((a, b) => {
+        const aNum = parseInt(a.code.replace(round, ""));
+        const bNum = parseInt(b.code.replace(round, ""));
+        return aNum - bNum;
+      });
 
   if (loading) return <Loader />;
 
@@ -112,12 +116,26 @@ export default function BracketPage() {
                     : "Ganador " + teamCode2;
 
                 return (
-                  <div key={game.id} className="eliminationMatch">
-                    <div className="matchTitle">
-                      {roundFullNames[round]} {index + 1}
+                  <div
+                    key={game.id}
+                    className={`eliminationMatch ${game.category} ${
+                      game.score1 && game.score2 ? "finished" : ""
+                    }`}
+                  >
+                    <div className="matchHeader">
+                      <div className="matchTitle">
+                        {roundFullNames[round]} {index + 1}
+                      </div>
+                      {(game.time || game.court) && (
+                        <div className="matchInfo">
+                          {game.time && <span>{game.time}</span>}
+                          {game.time && game.court && <span> · </span>}
+                          {game.court && <span>{game.court}</span>}
+                        </div>
+                      )}
                     </div>
 
-                    <div className="teams">
+                    <div className="teamsRow">
                       <div
                         className={`team ${
                           game.score1 &&
@@ -129,7 +147,12 @@ export default function BracketPage() {
                       >
                         {team1}
                       </div>
-                      <div className="separator"></div>
+                      <div className="score">{game.score1 ?? "-"}</div>
+                    </div>
+
+                    <div className="separator"></div>
+
+                    <div className="teamsRow">
                       <div
                         className={`team ${
                           game.score1 &&
@@ -141,13 +164,8 @@ export default function BracketPage() {
                       >
                         {team2}
                       </div>
+                      <div className="score">{game.score2 ?? "-"}</div>
                     </div>
-                    {game.score1 && game.score2 && (
-                      <div className="score">
-                        <div>{game.score1}</div>
-                        <div>{game.score2}</div>
-                      </div>
-                    )}
                   </div>
                 );
               })}

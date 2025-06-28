@@ -39,55 +39,80 @@
         padding: 10px;
         margin-bottom: 30px;
         display: flex;
-        align-items: center;
+        flex-direction: column;
         text-transform: uppercase;
 
-        .matchTitle {
-          font-size: 0.75rem;
-          font-weight: 600;
-          text-align: center;
-          margin-bottom: 6px;
-          color: var(--color-primary);
-          text-transform: none;
+        &.finished {
+          border: 1px solid var(--color-primary);
         }
 
-        .matchInfo {
-          margin-left: 5px;
-          margin-right: 10px;
-          font-size: 0.8rem;
-          color: var(--color-primary);
+        &.Senior {
+          background-color: var(--color-senior);
         }
 
-        .separator {
-          width: 100%;
-          border-bottom: 1px solid #cccccc;
+        &.Femenino {
+          background-color: var(--color-femenino);
         }
 
-        .teams {
-          width: 100%;
+        &.Mini {
+          background-color: var(--color-mini);
+        }
+
+        &.Peques {
+          background-color: var(--color-peques);
+        }
+
+        .matchHeader {
           display: flex;
           flex-direction: column;
+          align-items: flex-start;
+          margin-bottom: 8px;
+
+          .matchTitle {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--color-primary);
+            text-transform: none;
+          }
+
+          .matchInfo {
+            margin-top: 2px;
+            font-size: 0.75rem;
+            color: #666;
+            text-align: left;
+          }
+        }
+
+        .teamsRow {
+          display: flex;
+          justify-content: space-between;
           align-items: center;
-          text-align: center;
+          margin: 6px 0;
 
           .team {
-            margin: 10px;
             font-size: 0.9rem;
+            max-width: 70%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
 
             &.winner {
               font-weight: bold;
               color: var(--color-primary);
             }
           }
+
+          .score {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: var(--color-primary);
+            min-width: 20px;
+            text-align: right;
+          }
         }
 
-        .score {
-          width: 30px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          font-weight: bold;
-          color: var(--color-primary);
+        .separator {
+          border-bottom: 1px solid #cccccc;
         }
       }
     }

@@ -28,6 +28,26 @@
     }
   }
 
+  .map-wrapper {
+    display: block; // Ocupa todo el ancho posible (como bloque)
+    max-width: calc(
+      100vw - 2rem
+    ); // Máximo ancho: ancho de viewport menos 2rem de margen (1rem a cada lado)
+    margin: 1rem auto; // Centrado horizontal y margen vertical
+    aspect-ratio: 567 / 330;
+    border: 2px solid var(--color-primary);
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: zoom-in;
+  }
+
+  .map-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+
   .intro {
     text-align: center;
     margin-bottom: 2rem;

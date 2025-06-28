@@ -3,7 +3,7 @@ export type Category = "Senior" | "Femenino" | "Mini" | "Peques";
 export type Team = {
   id: string;
   name: string;
-  category: "senior" | "femenino" | "mini" | "peques";
+  category: Category;
   status: "Inscrito" | "En Espera";
 };
 

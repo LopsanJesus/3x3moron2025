@@ -7,13 +7,16 @@ import PageTemplate from "@/components/PageTemplate";
 import { useApi } from "@/contexts/ApiContext";
 import useGetRankedMatches from "@/hooks/useGetRankedMatches";
 import { Category } from "@/types";
-import { validCategories } from "@/utils/transformData";
 
+import CategoryTabs from "@/components/CategoryTabs";
 import "./styles.scss";
 
 export default function GroupsPage() {
-  const { games, loading } = useApi();
-  const [activeCategory, setActiveCategory] = useState<Category>("Senior");
+  const { games, loading, favoriteTeam } = useApi();
+
+  const [activeCategory, setActiveCategory] = useState<Category>(
+    favoriteTeam?.category || "Senior"
+  );
 
   const stats = useGetRankedMatches(games);
 
@@ -24,19 +27,10 @@ export default function GroupsPage() {
   return (
     <PageTemplate title="Grupos">
       <div className="groups-page">
-        <div className="tabs">
-          {validCategories.map((cat) => (
-            <button
-              key={cat}
-              className={`tab-button ${cat} ${
-                cat === activeCategory ? "active" : ""
-              }`}
-              onClick={() => setActiveCategory(cat)}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
+        <CategoryTabs
+          activeCategory={activeCategory}
+          onChange={(cat) => setActiveCategory(cat)}
+        />
 
         <div className="groups-container">
           {categoryStats?.groups.map((group) => (

@@ -55,6 +55,21 @@ function HomePageContent() {
           </Button>
         </section>
 
+        <a
+          href="/map.jpeg"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="map-wrapper"
+        >
+          <Image
+            src="/map.jpeg"
+            alt="Mapa del torneo"
+            width={567}
+            height={330}
+            className="map-image"
+          />
+        </a>
+
         <section className="intro">
           <Image
             src="/logo.jpeg"
