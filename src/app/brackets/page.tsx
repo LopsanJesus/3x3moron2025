@@ -103,14 +103,14 @@ export default function BracketPage() {
 
                 const team1 =
                   game.team1 && game.team1 !== "undefined"
-                    ? game.team1.substring(0, 16)
+                    ? game.team1.substring(0, 24)
                     : teamCode1 === "-"
                     ? "Fase Grupos"
                     : "Ganador " + teamCode1;
 
                 const team2 =
                   game.team2 && game.team2 !== "undefined"
-                    ? game.team2.substring(0, 16)
+                    ? game.team2.substring(0, 24)
                     : teamCode2 === "-"
                     ? "Fase Grupos"
                     : "Ganador " + teamCode2;

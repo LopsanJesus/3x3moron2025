@@ -36,7 +36,7 @@ function HomePageContent() {
   }
 
   return (
-    <PageTemplate title="Bienvenidos">
+    <PageTemplate title="Bienvenid@s">
       <main className="home-page">
         <section className="navigation-buttons">
           <Button

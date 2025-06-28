@@ -10,7 +10,12 @@ export default function Navbar() {
   const pathname = usePathname();
 
   const navItems = [
-    { href: "/?noRedirect=true", src: "/home.png", alt: "Inicio" },
+    {
+      href: "/",
+      query: { noRedirect: "true" },
+      src: "/home.png",
+      alt: "Inicio",
+    },
     { href: "/games", src: "/basketball_outline.jpg", alt: "Basket" },
     { href: "/groups", src: "/group_stage.jpg", alt: "Ranking" },
     { href: "/brackets", src: "/bracket-icon.jpg", alt: "Eliminatorias" },
@@ -22,7 +27,7 @@ export default function Navbar() {
       {navItems.map((item) => (
         <Link
           key={item.href}
-          href={item.href}
+          href={{ pathname: item.href, query: item.query }}
           className={`nav-item ${pathname === item.href ? "active" : ""}`}
         >
           <Image

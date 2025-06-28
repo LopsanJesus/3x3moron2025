@@ -92,8 +92,12 @@ export default function GameListItem({ game, isOpen, onToggle }: Props) {
         <div className="score-or-time">
           {hasScore && (
             <>
-              <span className="score">{game.score1}</span>
-              <span className="score">{game.score2}</span>
+              <span className={`score ${isTeam1Winner ? "winner" : ""}`}>
+                {game.score1}
+              </span>
+              <span className={`score ${isTeam2Winner ? "winner" : ""}`}>
+                {game.score2}
+              </span>
             </>
           )}
         </div>

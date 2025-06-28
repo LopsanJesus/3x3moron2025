@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 
+import Button from "@/components/Button";
 import CategoryTabs from "@/components/CategoryTabs";
 import GameList from "@/components/GameList";
 import Loader from "@/components/Loader";
@@ -40,6 +41,12 @@ export default function GamesPage() {
           onChange={(cat) => setActiveCategory(cat)}
         />
 
+        {!favoriteTeam && (
+          <div className="no-favorite-team">
+            <Button href="/profile/favorite-team">Selecciona tu equipo</Button>
+          </div>
+        )}
+
         {nextGamesForFavorite &&
           nextGamesForFavorite.length > 0 &&
           activeCategory === favoriteTeam?.category && (
@@ -54,6 +61,7 @@ export default function GamesPage() {
               />
             </div>
           )}
+
         {activeCategory === favoriteTeam?.category ? (
           <h3>Otros partidos</h3>
         ) : (
