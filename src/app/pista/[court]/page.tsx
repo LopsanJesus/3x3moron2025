@@ -49,7 +49,7 @@ const Court = ({ params }: { params: Promise<{ court: string }> }) => {
         <>
           <h2 className="text-xl font-bold mt-8 mb-4">Partidos terminados</h2>
 
-          <GameList games={[]} />
+          <GameList games={finishedGames} />
         </>
       )}
     </PageTemplate>
