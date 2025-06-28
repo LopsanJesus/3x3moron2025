@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import GameListItem from "../GameListItem";
 import Loader from "../Loader";
+
 import "./styles.scss";
 
 type Props = {
@@ -14,6 +15,11 @@ type Props = {
   excludedTeamName?: string;
   dontSort?: boolean;
   excludeContest?: boolean;
+};
+
+const toMinutes = (time: string) => {
+  const [h, m] = time.split(":").map(Number);
+  return h * 60 + m;
 };
 
 export default function GameList({
@@ -53,10 +59,10 @@ export default function GameList({
     score1: "",
     score2: "",
     category: "Senior",
-    court: "Pista 1 y 2", // o un valor como "Concurso"
-    phase: "", // o "Especial"
-    group: "", // si aplica
-    code: "special", // si es un identificador, pon algo como "special"
+    court: "Pista 1 y 2",
+    phase: "",
+    group: "",
+    code: "special",
   });
 
   const gamesWithSpecials = [...filteredGames];
@@ -67,22 +73,37 @@ export default function GameList({
     triplesEndTime &&
     activeCategory !== "Peques"
   ) {
-    gamesWithSpecials.push(
-      makeSpecialGame(-1, triplesStartTime, "🏀 Concurso de Triples"),
-      makeSpecialGame(-2, triplesEndTime, "🏁 Final Concurso de Triples")
-    );
+    const now = new Date();
+    const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+    const triplesStartMinutes = toMinutes(triplesStartTime);
+    const triplesEndMinutes = toMinutes(triplesEndTime);
+
+    if (currentMinutes <= triplesStartMinutes) {
+      gamesWithSpecials.push(
+        makeSpecialGame(-1, triplesStartTime, "🏀 Concurso de Triples")
+      );
+    }
+
+    if (currentMinutes <= triplesEndMinutes) {
+      gamesWithSpecials.push(
+        makeSpecialGame(-2, triplesEndTime, "🏁 Final Concurso de Triples")
+      );
+    }
   }
 
   let sortedGames = gamesWithSpecials;
 
   if (!dontSort) {
-    sortedGames = [...gamesWithSpecials].sort((a, b) => {
-      const toMinutes = (time: string) => {
-        const [h, m] = time.split(":").map(Number);
-        return h * 60 + m;
-      };
+    const getCourtNumber = (court: string) => {
+      const match = court.match(/\d+/);
+      return match ? parseInt(match[0], 10) : 0;
+    };
 
-      return toMinutes(a.time) - toMinutes(b.time);
+    sortedGames = [...gamesWithSpecials].sort((a, b) => {
+      const diff = toMinutes(a.time) - toMinutes(b.time);
+      if (diff !== 0) return diff;
+      return getCourtNumber(a.court) - getCourtNumber(b.court);
     });
   }
 

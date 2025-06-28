@@ -37,14 +37,19 @@ const Court = ({ params }: { params: Promise<{ court: string }> }) => {
     (game) => game.score1.trim() === "" || game.score2.trim() === ""
   );
 
+  const excludeContest = court !== "1" && court !== "2";
+
   return (
     <PageTemplate title={courtStr}>
-      {upcomingGames.length > 0 && <GameList games={upcomingGames} />}
+      {upcomingGames.length > 0 && (
+        <GameList games={upcomingGames} excludeContest={excludeContest} />
+      )}
 
       {finishedGames.length > 0 && (
         <>
           <h2 className="text-xl font-bold mt-8 mb-4">Partidos terminados</h2>
-          <GameList games={finishedGames} />
+
+          <GameList games={[]} />
         </>
       )}
     </PageTemplate>
