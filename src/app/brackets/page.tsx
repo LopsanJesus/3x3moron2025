@@ -147,7 +147,17 @@ export default function BracketPage() {
                       >
                         {team1}
                       </div>
-                      <div className="score">{game.score1 ?? "-"}</div>
+                      <div
+                        className={`score ${
+                          game.score1 &&
+                          game.score2 &&
+                          parseInt(game.score1) > parseInt(game.score2)
+                            ? "winner"
+                            : ""
+                        }`}
+                      >
+                        {game.score1 ?? "-"}
+                      </div>
                     </div>
 
                     <div className="separator"></div>
@@ -164,7 +174,17 @@ export default function BracketPage() {
                       >
                         {team2}
                       </div>
-                      <div className="score">{game.score2 ?? "-"}</div>
+                      <div
+                        className={`score ${
+                          game.score1 &&
+                          game.score2 &&
+                          parseInt(game.score1) < parseInt(game.score2)
+                            ? "winner"
+                            : ""
+                        }`}
+                      >
+                        {game.score2 ?? "-"}
+                      </div>
                     </div>
                   </div>
                 );

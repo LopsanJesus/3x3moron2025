@@ -104,10 +104,13 @@
 
           .score {
             font-size: 0.9rem;
-            font-weight: bold;
-            color: var(--color-primary);
             min-width: 20px;
             text-align: right;
+
+            &.winner {
+              font-weight: bold;
+              color: var(--color-primary);
+            }
           }
         }
 
